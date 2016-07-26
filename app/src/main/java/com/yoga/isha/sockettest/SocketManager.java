@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 
 public class SocketManager {
 
-    public static final String CHAT_SERVER_URL = "http://192.168.10.10:3000/";
+    public static final String CHAT_SERVER_URL = "";
 
     private Socket mSocket;
 
@@ -28,6 +28,17 @@ public class SocketManager {
     public SocketManager(){
         try {
             mSocket = IO.socket(CHAT_SERVER_URL);
+            mSocket.connect();
+            mSocket.emit("connectUser", "bikash");
+
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public SocketManager(String serverUrl){
+        try {
+            mSocket = IO.socket(serverUrl);
             mSocket.connect();
             mSocket.emit("connectUser", "bikash");
 

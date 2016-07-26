@@ -1,16 +1,24 @@
 package com.yoga.isha.sockettest;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.vstechlab.easyfonts.EasyFonts;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,17 +32,22 @@ public class MainActivity extends AppCompatActivity {
     private Boolean start;
     private ShakeDetector mShakeDetector;
     private TouchHandlerView mainView;
-
+    EditText ipFld;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        ipFld  = (EditText) findViewById(R.id.editfield);
+        ipFld.setTypeface(EasyFonts.robotoThin(this));
+        ipFld.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(ipFld, InputMethodManager.SHOW_IMPLICIT);
+
         mainView = (TouchHandlerView)findViewById(R.id.mainView);
-
         mSocket = new SocketManager();
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
@@ -78,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Sending an object
+                    // Sending an object
                     JSONObject obj = new JSONObject();
                     try {
 
@@ -87,8 +101,22 @@ public class MainActivity extends AppCompatActivity {
                         System.out.print(e);
                     }
                     mSocket.sendResetData(obj);
+
                 }
             });
+
+
+        Button connectBtn = (Button)findViewById(R.id.connect);
+
+        connectBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                mSocket = new SocketManager(ipFld.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(ipFld.getWindowToken(), 0);
+            }
+        });
 
 
 
@@ -120,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
         }
         mSocket.sendResetData(obj);
     }
+
+
 
 
 }

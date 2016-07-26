@@ -69,8 +69,8 @@ public class TouchHandlerView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int height = canvas.getHeight();
+        int width = canvas.getWidth();
 
         canvas.drawLine(width/2, 0, width/2, height, paint); //vertical line
         canvas.drawLine(0, height/2, width, height/2, paint); //horizontal line
