@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                mSocket = new SocketManager(ipFld.getText().toString());
+                mSocket = new SocketManager("http://"+ipFld.getText().toString()+":3000/");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(ipFld.getWindowToken(), 0);
             }
